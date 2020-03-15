@@ -1,0 +1,14 @@
+{
+  "name": "custom-codenames",
+  "version": "1.0.0",
+  "description": "Play Codenames online",
+  "main": "index.js",
+  "repository": "git@github.com:sgoedecke/custom-codenames.git",
+  "author": "Sean Goedecke <sgoedecke@zendesk.com>",
+  "license": "MIT",
+  "private": false,
+  "dependencies": {
+    "express": "4.15.2",
+    "socket.io": "^2.3.0"
+  }
+}
