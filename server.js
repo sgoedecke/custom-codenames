@@ -24,12 +24,7 @@ io.on('connection', function(socket){
   // if there's no game object associated with this room, create one
   currentGame = gameStates[roomName]
   if (!currentGame) {
-    gameStates[roomName] = {
-      state: {},
-      players: [socket.id]
-    }
-  } else {
-    currentGame.players = currentGame.players.concat(socket.id)
+    gameStates[roomName] = {}
   }
   console.log(JSON.stringify(gameStates))
 
@@ -38,7 +33,8 @@ io.on('connection', function(socket){
   socket.on('game state update', function(msg){
     console.log('sending ' + JSON.stringify(msg) + ' to ' + roomName)
     // TODO: maintain game state server side instead of just overwriting
-    gameStates[roomName].state = msg
+    gameStates[roomName] = msg
+    console.log('sending ' + JSON.stringify(gameStates[roomName]) + ' to ' + roomName)
     io.to(roomName).emit('game state update', gameStates[roomName]);
   });
 
