@@ -11,6 +11,8 @@ app.get('/', function(req, res){
 // serve js and css 
 app.use('/assets', express.static(__dirname + '/assets'));
 
+gameStates = {}
+
 io.on('connection', function(socket){
   const roomName = socket.handshake.query.roomName;
   if (!roomName) {
@@ -19,11 +21,29 @@ io.on('connection', function(socket){
   }
 
   console.log('user connected to ' + roomName)
-  // TODO: if there's no game object associated with this room, create one
+  // if there's no game object associated with this room, create one
+  currentGame = gameStates[roomName]
+  if (!currentGame) {
+    gameStates[roomName] = {
+      state: {},
+      players: [socket.id]
+    }
+  } else {
+    currentGame.players = currentGame.players.concat(socket.id)
+  }
+  console.log(JSON.stringify(gameStates))
+
   socket.join(roomName);
 
+  socket.on('game state update', function(msg){
+    console.log('sending ' + JSON.stringify(msg) + ' to ' + roomName)
+    // TODO: maintain game state server side instead of just overwriting
+    gameStates[roomName].state = msg
+    io.to(roomName).emit('game state update', gameStates[roomName]);
+  });
+
   socket.on('chat message', function(msg){
-    console.log('sending ' + msg + ' to ' + roomName)
+    console.log('sending ' + JSON.stringify(msg) + ' to ' + roomName)
     io.to(roomName).emit('chat message', msg);
   });
 });
