@@ -7,12 +7,18 @@ app.get('/', function(req, res){
 });
 
 io.on('connection', function(socket){
-  console.log('a user connected');
-  socket.on('disconnect', function(){
-    console.log('user disconnected');
-  });
+  const roomName = socket.handshake.query.roomName;
+  if (!roomName) {
+    console.log('user connected with no room')
+    return
+  }
+
+  console.log('user connected to ' + roomName)
+  socket.join(roomName);
+
   socket.on('chat message', function(msg){
-    console.log('message: ' + msg);
+    console.log('sending ' + msg + ' to ' + roomName)
+    io.to(roomName).emit('chat message', msg);
   });
 });
 
