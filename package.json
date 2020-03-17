@@ -9,12 +9,14 @@
   "private": false,
   "dependencies": {
     "express": "4.15.2",
+    "random-words": "^1.1.0",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
+    "shuffle-array": "^1.0.1",
     "socket.io": "^2.3.0"
   },
   "scripts": {
-    "server": "node server.js",
+    "server": "node server/index.js",
     "build": "webpack"
   },
   "devDependencies": {

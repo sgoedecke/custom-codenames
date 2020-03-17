@@ -14,22 +14,24 @@ app.use('/assets', express.static(__dirname + '/assets'));
 gameStates = {}
 
 io.on('connection', function(socket){
+  // associate socket with game room from hash param
   const roomName = socket.handshake.query.roomName;
   if (!roomName) {
     console.log('user connected with no room')
     return
   }
-
   console.log('user connected to ' + roomName)
+  socket.join(roomName);
+
   // if there's no game object associated with this room, create one
+  // TODO: clean up the game when it's finished to avoid leaking memory
   currentGame = gameStates[roomName]
   if (!currentGame) {
     gameStates[roomName] = {}
   }
-  console.log(JSON.stringify(gameStates))
+  console.log('Game states: ' + JSON.stringify(gameStates))
 
-  socket.join(roomName);
-
+  // handle game events
   socket.on('game state update', function(msg){
     console.log('sending ' + JSON.stringify(msg) + ' to ' + roomName)
     // TODO: maintain game state server side instead of just overwriting
