@@ -49,12 +49,36 @@ class CodenamesGame {
     }
 
     this.revealedTiles = this.revealedTiles.concat(tile);
+
+    // check if the tile is the assassin
     if (tile === this.assassinTile) {
       const otherTeam = this.bluePlayers.indexOf(player) > 0 ? 'blue' : 'red';
       this.winner = otherTeam;
+      this.playing = false;
     }
 
-    // check if the choosing team has won
+    // check if a team has won
+    const { blueScore, redScore } = this.calculateScores();
+    if (blueScore >= this.blueTiles.length) {
+      this.winner = 'blue';
+      this.playing = false;
+    } else if (redScore >= this.redTiles.length) {
+      this.winner = 'red';
+      this.playing = false;
+    }
+  }
+
+  calculateScores() {
+    let redScore; let
+      blueScore = 0;
+    this.revealedTiles.forEach((tile) => {
+      if (this.blueTiles.indexOf(tile) > 0) {
+        blueScore += 1;
+      } else if (this.redTiles.indexOf(tile) > 0) {
+        redScore += 1;
+      }
+    });
+    return { blueScore, redScore };
   }
 
   // what the client needs to render the game
