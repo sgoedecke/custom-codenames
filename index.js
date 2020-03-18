@@ -4,6 +4,8 @@ const app = express();
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 
+const CodenamesGame = require('./server/codenames').default;
+
 // serve entrypoint
 app.get('/', (req, res) => {
   res.sendFile(`${__dirname}/assets/index.html`);
@@ -28,19 +30,25 @@ io.on('connection', (socket) => {
   // TODO: clean up the game when it's finished to avoid leaking memory
   const currentGame = gameStates[roomName];
   if (!currentGame) {
-    gameStates[roomName] = {};
+    gameStates[roomName] = new CodenamesGame();
+    gameStates[roomName].addPlayer(socket.id);
   }
-  console.log(`Game states: ${JSON.stringify(gameStates)}`);
 
   // handle game events
-  socket.on('game state update', (msg) => {
-    console.log(`sending ${JSON.stringify(msg)} to ${roomName}`);
-    // TODO: maintain game state server side instead of just overwriting
-    gameStates[roomName] = msg;
-    console.log(`sending ${JSON.stringify(gameStates[roomName])} to ${roomName}`);
-    io.to(roomName).emit('game state update', gameStates[roomName]);
+  socket.on('claim leader', () => {
+    currentGame.assignLeader(socket.id);
+    console.log(`sending ${JSON.stringify(currentGame.serialize())} to ${roomName}`);
+    io.to(roomName).emit('game state update', currentGame.serialize());
   });
 
+  socket.on('choose tile', (msg) => {
+    currentGame.chooseTile(msg, socket.id);
+    console.log(`sending ${JSON.stringify(currentGame.serialize())} to ${roomName}`);
+    io.to(roomName).emit('game state update', currentGame.serialize());
+  });
+
+
+  // handle chat
   socket.on('chat message', (msg) => {
     console.log(`sending ${JSON.stringify(msg)} to ${roomName}`);
     io.to(roomName).emit('chat message', msg);

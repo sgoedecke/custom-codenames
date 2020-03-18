@@ -11,7 +11,9 @@ window.socket = io({
   },
 });
 
-ReactDOM.render(
-  <App roomName={window.location.hash} />,
-  document.getElementById('root'),
-);
+window.socket.on('connect', () => {
+  ReactDOM.render(
+    <App roomName={window.location.hash} socketId={window.socket.id} />,
+    document.getElementById('root'),
+  );
+});

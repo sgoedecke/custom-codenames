@@ -34,7 +34,7 @@ class App extends React.Component {
   }
 
   render() {
-    const { roomName } = this.props;
+    const { roomName, socketId } = this.props;
     const { messages, gameState } = this.state;
 
     if (!roomName) {
@@ -48,6 +48,9 @@ class App extends React.Component {
           Currently playing in
           { roomName }
         </h1>
+        You are
+        {' '}
+        { socketId }
         <Codenames gameState={gameState} updateGameState={this.updateGameState.bind(this)} />
         <ChatPanel messages={messages} sendMessage={this.sendMessage.bind(this)} />
       </div>

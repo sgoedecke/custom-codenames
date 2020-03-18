@@ -44,9 +44,8 @@ class CodenamesGame {
 
   chooseTile(tile, player) {
     if (this.winner || !this.playing) { return; }
-    if (this.revealedTiles.indexOf(tile) > 0) {
-      return; // already chosen
-    }
+    if (player === this.redLeader || player === this.blueLeader) { return; }
+    if (this.revealedTiles.indexOf(tile) > 0) { return; }
 
     this.revealedTiles = this.revealedTiles.concat(tile);
 
@@ -96,4 +95,4 @@ class CodenamesGame {
   }
 }
 
-export default CodenamesGame;
+exports.default = CodenamesGame;
