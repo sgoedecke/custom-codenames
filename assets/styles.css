@@ -13,4 +13,19 @@ form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 
 .game {
   border: 1px solid blue;
   height: 70vh;
+  width: 700px;
+}
+
+.tiles {
+  display: flex;
+  flex-wrap: wrap;
+}
+.tile {
+  width: 100px;
+  height: 70px;
+  margin: 10px;
+  padding: 10px;
+  box-shadow: 2px 2px;
+  border: 1px solid black;
+  cursor: pointer;
 }

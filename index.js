@@ -32,16 +32,22 @@ io.on('connection', (socket) => {
   if (!currentGame) {
     gameStates[roomName] = new CodenamesGame();
     gameStates[roomName].addPlayer(socket.id);
+    console.log('emitting update!');
+    io.to(roomName).emit('game state update', gameStates[roomName].serialize());
   }
 
   // handle game events
+  socket.on('sync', () => { // handle sync request from client
+    socket.emit('game state update', currentGame.serialize());
+  });
+
   socket.on('claim leader', () => {
     currentGame.assignLeader(socket.id);
     console.log(`sending ${JSON.stringify(currentGame.serialize())} to ${roomName}`);
     io.to(roomName).emit('game state update', currentGame.serialize());
   });
 
-  socket.on('choose tile', (msg) => {
+  socket.on('chooseTile', (msg) => {
     currentGame.chooseTile(msg, socket.id);
     console.log(`sending ${JSON.stringify(currentGame.serialize())} to ${roomName}`);
     io.to(roomName).emit('game state update', currentGame.serialize());

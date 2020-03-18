@@ -6,14 +6,25 @@ class Codenames extends React.Component {
     this.state = {};
   }
 
+  componentDidMount() {
+    this.props.syncState();
+  }
+
   render() {
-    const { gameState, updateGameState } = this.props;
+    const { gameState, chooseTile } = this.props;
+    console.log('state', gameState);
+    if (!gameState.tiles) { return null; }
+    const { tiles } = gameState;
     return (
       <div className="game">
         Game state:
+        {' '}
         { JSON.stringify(gameState) }
-        <br />
-        <button onClick={() => { updateGameState({ ...gameState, [Math.random().toString(36)]: 'is updated' }); }}>Update game state</button>
+        <div className="tiles">
+          { tiles.map((tile) => (
+            <div key={tile} onClick={() => { chooseTile(tile); }} className="tile">{tile}</div>
+          ))}
+        </div>
       </div>
     );
   }

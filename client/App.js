@@ -19,6 +19,7 @@ class App extends React.Component {
     });
 
     window.socket.on('game state update', (gameState) => {
+      console.log('got update', gameState);
       this.setState({ gameState });
     });
   }
@@ -27,10 +28,15 @@ class App extends React.Component {
     window.socket.emit('chat message', msg);
   }
 
-  // TODO: think about preventing manual tampering
-  updateGameState(gameState) {
-    console.log(gameState);
-    window.socket.emit('game state update', gameState);
+  // request a new copy of the state from the server. called after the
+  // component loads
+  syncState() {
+    window.socket.emit('sync');
+  }
+
+  chooseTile(tile) {
+    console.log('choosing tile', tile);
+    window.socket.emit('chooseTile', tile);
   }
 
   render() {
@@ -51,7 +57,7 @@ class App extends React.Component {
         You are
         {' '}
         { socketId }
-        <Codenames gameState={gameState} updateGameState={this.updateGameState.bind(this)} />
+        <Codenames gameState={gameState} syncState={this.syncState.bind(this)} chooseTile={this.chooseTile.bind(this)} />
         <ChatPanel messages={messages} sendMessage={this.sendMessage.bind(this)} />
       </div>
     );
