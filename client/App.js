@@ -1,6 +1,7 @@
 import React from 'react';
 import ChatPanel from './ChatPanel';
 import Codenames from './Codenames';
+import TeamDisplay from './TeamDisplay';
 
 class App extends React.Component {
   constructor(props) {
@@ -39,6 +40,11 @@ class App extends React.Component {
     window.socket.emit('chooseTile', tile);
   }
 
+  chooseLeader(player) {
+    console.log('choosing leader', player);
+    window.socket.emit('chooseLeader', player);
+  }
+
   render() {
     const { roomName, socketId } = this.props;
     const { messages, gameState } = this.state;
@@ -50,14 +56,21 @@ class App extends React.Component {
 
     return (
       <div>
-        <h1>
-          Currently playing in
-          { roomName }
-        </h1>
-        You are
-        {' '}
-        { socketId }
+        <div className="header">
+          <h1>
+            Currently playing in
+            { roomName }
+          </h1>
+          You are
+          {' '}
+          { socketId }
+          <br />
+          Game is
+          {' '}
+          <b>{ gameState.playing ? 'playing' : 'not playing' }</b>
+        </div>
         <Codenames gameState={gameState} syncState={this.syncState.bind(this)} chooseTile={this.chooseTile.bind(this)} />
+        <TeamDisplay gameState={gameState} chooseLeader={this.chooseLeader.bind(this)} />
         <ChatPanel messages={messages} sendMessage={this.sendMessage.bind(this)} />
       </div>
     );

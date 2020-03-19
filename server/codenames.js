@@ -22,14 +22,19 @@ class CodenamesGame {
 
   // add a new player to the team with the fewest players
   addPlayer(player) {
-    console.log("Adding: " + player)
+    console.log(`Adding: ${player}`);
     if (this.redPlayers.length < this.bluePlayers.length) {
       this.redPlayers = this.redPlayers.concat(player);
-      console.log("red team: " + player)
+      console.log(`red team: ${player}`);
     } else {
       this.bluePlayers = this.bluePlayers.concat(player);
-      console.log("blue team: " + player)
+      console.log(`blue team: ${player}`);
     }
+  }
+
+  removePlayer(player) {
+    this.redPlayers = this.redPlayers.filter((p) => p !== player);
+    this.bluePlayers = this.bluePlayers.filter((p) => p !== player);
   }
 
   assignLeader(player) {

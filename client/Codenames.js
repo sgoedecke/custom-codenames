@@ -17,9 +17,6 @@ class Codenames extends React.Component {
     const { tiles } = gameState;
     return (
       <div className="game">
-        Game state:
-        {' '}
-        { JSON.stringify(gameState) }
         <div className="tiles">
           { tiles.map((tile) => (
             <div key={tile} onClick={() => { chooseTile(tile); }} className="tile">{tile}</div>
