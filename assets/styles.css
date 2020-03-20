@@ -6,7 +6,6 @@ body {
 form {
   padding: 3px;
   bottom: 0;
-  border: 1px solid black;
   width: 700px;
 }
 form input { border: 1px solid black; padding: 10px; width: 90%; margin-right: .5%; }
@@ -16,6 +15,10 @@ form button {
   border-color: black;
   box-shadow: 2px 2px;
   cursor: pointer;
+}
+
+p {
+  margin-top: 4px;
 }
 
 .header {
@@ -34,15 +37,15 @@ form button {
 }
 
 .messages {
-  border: 1px solid red;
+  border-top: 1px solid black;
+  padding-top: 10px;
   height: 20vh;
   width: 700px;
   overflow: scroll;
 }
 
 .game {
-  border: 1px solid blue;
-  height: 50vh;
+  height: 48vh;
   width: 700px;
 }
 
@@ -73,8 +76,7 @@ form button {
 .players {
   display: flex;
   padding-top: 5px;
-  padding-bottom: 5px;
-  border: 1px solid black;
+  padding-bottom: 10px;
   width: 700px;
 }
 

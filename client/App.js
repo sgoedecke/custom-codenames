@@ -101,9 +101,11 @@ class App extends React.Component {
 
             <button onClick={this.updateName}>Change name</button>
           </div>
-          Game is
-          {' '}
-          <b>{ gameState.playing ? 'playing' : 'not playing' }</b>
+          <p>
+            Game is
+            {' '}
+            <b>{ gameState.playing ? 'playing' : 'not playing' }</b>
+          </p>
           { gameState.playing && (
           <p>
             Current turn:
