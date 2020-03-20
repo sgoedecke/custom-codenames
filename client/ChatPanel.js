@@ -8,7 +8,7 @@ class ChatPanel extends React.Component {
     };
   }
 
-  // TODO: scrolling messages, displaying username
+  // TODO: scrolling messages
   render() {
     const { messages, sendMessage } = this.props;
     return (

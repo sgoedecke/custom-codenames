@@ -1,5 +1,8 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
-body { font: 13px Helvetica, Arial; }
+body {
+  font: 13px Helvetica, Arial;
+  padding: 20px;
+}
 form {
   padding: 3px;
   bottom: 0;
@@ -18,6 +21,18 @@ form button {
 .header {
   padding-bottom: 10px;
 }
+
+.header h1 {
+  padding-bottom: 10px;
+}
+
+.header button {
+  border-color: black;
+  box-shadow: 2px 2px;
+  padding: 5px;
+  margin-left: 10px;
+}
+
 .messages {
   border: 1px solid red;
   height: 20vh;

@@ -89,9 +89,9 @@ class App extends React.Component {
             You are
             {' '}
             { this.state.usernames[socketId] || socketId }
+
+            <button onClick={this.updateName}>Change name</button>
           </div>
-          <button onClick={this.updateName}>Change name</button>
-          <br />
           Game is
           {' '}
           <b>{ gameState.playing ? 'playing' : 'not playing' }</b>
