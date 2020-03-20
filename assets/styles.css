@@ -29,8 +29,8 @@ form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 
   height: 50px;
   margin: 10px;
   padding: 10px;
-  box-shadow: 2px 2px;
-  border: 1px solid black;
+  box-shadow: 2px 2px lightgrey;
+  border: 2px solid lightgrey;
   cursor: pointer;
 }
 
@@ -40,6 +40,14 @@ form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 
   padding-bottom: 5px;
   border: 1px solid black;
   width: 700px;
+}
+
+.players button {
+  padding: 5px;
+  margin-left: 20px;
+  border-color: black;
+  box-shadow: 2px 2px;
+  cursor: pointer;
 }
 
 .red-team {
@@ -52,5 +60,16 @@ form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 
 
 .blue-team h3 {
   color: blue;
+}
 
+.redTile {
+  border-color: red;
+}
+
+.blueTile {
+  border-color: blue;
+}
+
+.assassinTile {
+  border-color: black;
 }

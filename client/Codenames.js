@@ -10,6 +10,22 @@ class Codenames extends React.Component {
     this.props.syncState();
   }
 
+  getClass(tile) {
+    const { gameState } = this.props;
+    if (!gameState.redTiles) { return ''; }
+
+    if (gameState.redTiles.indexOf(tile) >= 0) {
+      return 'redTile';
+    }
+    if (gameState.blueTiles.indexOf(tile) >= 0) {
+      return 'blueTile';
+    }
+    if (gameState.assassinTile === tile) {
+      return 'assassinTile';
+    }
+    return '';
+  }
+
   render() {
     const { gameState, chooseTile } = this.props;
     console.log('state', gameState);
@@ -19,7 +35,9 @@ class Codenames extends React.Component {
       <div className="game">
         <div className="tiles">
           { tiles.map((tile) => (
-            <div key={tile} onClick={() => { chooseTile(tile); }} className="tile">{tile}</div>
+            <div key={tile} onClick={() => { chooseTile(tile); }} className={`tile ${this.getClass(tile)}`}>
+              {tile}
+            </div>
           ))}
         </div>
       </div>

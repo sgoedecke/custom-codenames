@@ -22,6 +22,14 @@ io.on('connection', (socket) => {
   if (!roomName) { return; }
   socket.join(roomName);
 
+  const emitGameUpdate = () => {
+    if (!gameStates[roomName]) { return; }
+    const players = Object.keys(io.sockets.adapter.rooms[roomName].sockets);
+    players.forEach((player) => {
+      io.to(player).emit('game state update', gameStates[roomName].serialize(player));
+    });
+  };
+
   // if there's no game object associated with this room, create one
   // TODO: clean up the game when it's finished to avoid leaking memory
   let currentGame = gameStates[roomName];
@@ -30,33 +38,31 @@ io.on('connection', (socket) => {
     currentGame = gameStates[roomName];
   }
   currentGame.addPlayer(socket.id);
-  io.to(roomName).emit('game state update', gameStates[roomName].serialize());
+  emitGameUpdate();
 
   // handle players leaving
   socket.on('disconnect', () => {
     if (!currentGame) { return; }
     currentGame.removePlayer(socket.id);
-    socket.emit('game state update', currentGame.serialize());
+    emitGameUpdate();
   });
 
   // handle game events
   socket.on('sync', () => { // handle request for game state from client
     if (!currentGame) { return; }
-    socket.emit('game state update', currentGame.serialize());
+    emitGameUpdate();
   });
 
-  socket.on('claim leader', () => {
+  socket.on('chooseLeader', () => {
     if (!currentGame) { return; }
     currentGame.assignLeader(socket.id);
-    console.log(`sending ${JSON.stringify(currentGame.serialize())} to ${roomName}`);
-    io.to(roomName).emit('game state update', currentGame.serialize());
+    emitGameUpdate();
   });
 
   socket.on('chooseTile', (msg) => {
     if (!currentGame) { return; }
     currentGame.chooseTile(msg, socket.id);
-    console.log(`sending ${JSON.stringify(currentGame.serialize())} to ${roomName}`);
-    io.to(roomName).emit('game state update', currentGame.serialize());
+    emitGameUpdate();
   });
 
 

@@ -30,30 +30,40 @@ class CodenamesGame {
       this.bluePlayers = this.bluePlayers.concat(player);
       console.log(`blue team: ${player}`);
     }
+
+    if (!this.winner && this.redLeader && this.blueLeader && this.redPlayers.length > 1 && this.bluePlayers.length > 1) {
+      this.playing = true;
+    }
   }
 
   removePlayer(player) {
     this.redPlayers = this.redPlayers.filter((p) => p !== player);
     this.bluePlayers = this.bluePlayers.filter((p) => p !== player);
+    if (this.redLeader === player) { this.redLeader = undefined; }
+    if (this.blueLeader === player) { this.blueLeader = undefined; }
   }
 
   assignLeader(player) {
     if (this.winner || this.playing) { return; }
-    if (this.redPlayers.indexOf(player) > 0) {
+    if (this.redPlayers.indexOf(player) >= 0) {
       if (!this.redLeader) {
         this.redLeader = player;
       }
-    } else if (this.bluePlayers.indexOf(player) > 0) {
+    } else if (this.bluePlayers.indexOf(player) >= 0) {
       if (!this.blueLeader) {
         this.blueLeader = player;
       }
+    }
+
+    if (!this.winner && this.redLeader && this.blueLeader && this.redPlayers.length > 1 && this.bluePlayers.length > 1) {
+      this.playing = true;
     }
   }
 
   chooseTile(tile, player) {
     if (this.winner || !this.playing) { return; }
     if (player === this.redLeader || player === this.blueLeader) { return; }
-    if (this.revealedTiles.indexOf(tile) > 0) { return; }
+    if (this.revealedTiles.indexOf(tile) >= 0) { return; }
 
     this.revealedTiles = this.revealedTiles.concat(tile);
 
@@ -79,9 +89,9 @@ class CodenamesGame {
     let redScore; let
       blueScore = 0;
     this.revealedTiles.forEach((tile) => {
-      if (this.blueTiles.indexOf(tile) > 0) {
+      if (this.blueTiles.indexOf(tile) >= 0) {
         blueScore += 1;
-      } else if (this.redTiles.indexOf(tile) > 0) {
+      } else if (this.redTiles.indexOf(tile) >= 0) {
         redScore += 1;
       }
     });
@@ -89,8 +99,8 @@ class CodenamesGame {
   }
 
   // what the client needs to render the game
-  serialize() {
-    return ({
+  serialize(player) {
+    const output = {
       tiles: this.tiles,
       redPlayers: this.redPlayers,
       bluePlayers: this.bluePlayers,
@@ -99,7 +109,20 @@ class CodenamesGame {
       revealedTiles: this.revealedTiles,
       playing: this.playing,
       winner: this.winner,
-    });
+    };
+
+    // leaders see all tiles revealed; everyone else only sees picked ones
+    if (player === this.redLeader || player === this.blueLeader) {
+      output.redTiles = this.redTiles;
+      output.blueTiles = this.blueTiles;
+      output.assassinTile = this.assassinTile;
+    } else {
+      output.redTiles = this.redTiles.filter((t) => this.revealedTiles.indexOf(t) >= 0);
+      output.blueTiles = this.blueTiles.filter((t) => this.revealedTiles.indexOf(t) >= 0);
+      output.assassinTile = this.revealedTiles.indexOf(this.assassinTile) >= 0 ? this.assassinTile : undefined;
+    }
+
+    return output;
   }
 }
 
