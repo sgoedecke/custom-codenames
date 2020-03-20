@@ -18,6 +18,7 @@ class CodenamesGame {
     this.blueLeader = undefined;
     this.playing = false;
     this.winner = undefined;
+    this.currentTurn = 'red'; // red goes first
   }
 
   // add a new player to the team with the fewest players
@@ -64,6 +65,8 @@ class CodenamesGame {
     if (this.winner || !this.playing) { return false; }
     if (player === this.redLeader || player === this.blueLeader) { return false; }
     if (this.revealedTiles.indexOf(tile) >= 0) { return false; }
+    if (this.bluePlayers.indexOf(player) >= 0 && this.currentTurn === 'red') { return false; }
+    if (this.redPlayers.indexOf(player) >= 0 && this.currentTurn === 'blue') { return false; }
 
     this.revealedTiles = this.revealedTiles.concat(tile);
 
@@ -82,6 +85,12 @@ class CodenamesGame {
     } else if (redScore >= this.redTiles.length) {
       this.winner = 'red';
       this.playing = false;
+    }
+
+    // switch turn if the pick missed
+    const targetTiles = this.redPlayers.indexOf(player) >= 0 ? this.redTiles : this.blueTiles;
+    if (targetTiles.indexOf(tile) < 0) {
+      this.currentTurn = this.currentTurn === 'red' ? 'blue' : 'red';
     }
 
     return true;
@@ -104,6 +113,7 @@ class CodenamesGame {
   serialize(player) {
     const output = {
       tiles: this.tiles,
+      currentTurn: this.currentTurn,
       redPlayers: this.redPlayers,
       bluePlayers: this.bluePlayers,
       redLeader: this.redLeader,

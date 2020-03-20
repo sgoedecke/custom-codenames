@@ -94,6 +94,12 @@ class App extends React.Component {
           Game is
           {' '}
           <b>{ gameState.playing ? 'playing' : 'not playing' }</b>
+          { gameState.playing && (
+          <p>
+            Current turn:
+            {gameState.currentTurn}
+          </p>
+          )}
         </div>
         <Codenames gameState={gameState} syncState={this.syncState.bind(this)} chooseTile={this.chooseTile.bind(this)} />
         <TeamDisplay gameState={gameState} chooseLeader={this.chooseLeader.bind(this)} usernames={this.state.usernames} />
