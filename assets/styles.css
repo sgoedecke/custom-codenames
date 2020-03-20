@@ -62,10 +62,12 @@ form button {
   width: 100px;
   height: 50px;
   margin: 10px;
-  padding: 10px;
   box-shadow: 2px 2px lightgrey;
   border: 2px solid lightgrey;
   cursor: pointer;
+  font-size: xx-large;
+  padding-top: 5px;
+  padding-left: 30px;
 }
 
 .players {
@@ -98,16 +100,20 @@ form button {
 
 .redTile {
   border-color: red;
+  background: rgba(255, 0, 0, 0.2)
 }
 
 .blueTile {
   border-color: blue;
+  background: rgba(0, 0, 255, 0.2)
 }
 
 .assassinTile {
   border-color: black;
+  background: rgba(0,0,0, 0.4)
 }
 
 .revealedTile {
   border-color: grey;
+  background: rgba(0,0,0, 0.2)
 }

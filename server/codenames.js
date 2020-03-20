@@ -1,5 +1,6 @@
-const randomWords = require('random-words');
 const shuffle = require('shuffle-array');
+const _ = require('lodash');
+const emojis = Object.values(require('./emojis'));
 
 class CodenamesGame {
   constructor() {
@@ -22,13 +23,8 @@ class CodenamesGame {
   }
 
   generateTiles(num) {
-    while (true) {
-      const words = randomWords(num);
-      const uniqueWords = [...new Set(words)];
-      if (uniqueWords.length === num) {
-        return uniqueWords;
-      }
-    }
+    const words = _.sampleSize(emojis, num);
+    return words;
   }
 
   // add a new player to the team with the fewest players
