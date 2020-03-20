@@ -25,7 +25,7 @@ io.on('connection', (socket) => {
 
   const emitGameUpdate = () => {
     if (!gameStates[roomName]) { return; }
-    const players = Object.keys(io.sockets.adapter.rooms[roomName].sockets);
+    const players = Object.keys((io.sockets.adapter.rooms[roomName] || { sockets: {} }).sockets);
     players.forEach((player) => {
       io.to(player).emit('game state update', gameStates[roomName].serialize(player));
     });

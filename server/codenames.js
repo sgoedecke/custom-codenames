@@ -5,7 +5,7 @@ class CodenamesGame {
   constructor() {
     // generate a list of 25 tiles. we don't need to track order, just
     // remember which words belong to which team and sort it out at runtime.
-    this.tiles = randomWords(25);
+    this.tiles = this.generateTiles(25);
     this.redTiles = this.tiles.slice(0, 9); // 9 tiles for red
     this.blueTiles = this.tiles.slice(9, 16); // 8 for blue
     this.assassinTile = this.tiles[16];
@@ -19,6 +19,16 @@ class CodenamesGame {
     this.playing = false;
     this.winner = undefined;
     this.currentTurn = 'red'; // red goes first
+  }
+
+  generateTiles(num) {
+    while (true) {
+      const words = randomWords(num);
+      const uniqueWords = [...new Set(words)];
+      if (uniqueWords.length === num) {
+        return uniqueWords;
+      }
+    }
   }
 
   // add a new player to the team with the fewest players

@@ -80,6 +80,7 @@ class App extends React.Component {
             : (
               <h1>
                 Currently playing in
+                {' '}
                 { roomName }
               </h1>
             ) }
