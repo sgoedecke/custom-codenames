@@ -61,9 +61,9 @@ class CodenamesGame {
   }
 
   chooseTile(tile, player) {
-    if (this.winner || !this.playing) { return; }
-    if (player === this.redLeader || player === this.blueLeader) { return; }
-    if (this.revealedTiles.indexOf(tile) >= 0) { return; }
+    if (this.winner || !this.playing) { return false; }
+    if (player === this.redLeader || player === this.blueLeader) { return false; }
+    if (this.revealedTiles.indexOf(tile) >= 0) { return false; }
 
     this.revealedTiles = this.revealedTiles.concat(tile);
 
@@ -83,6 +83,8 @@ class CodenamesGame {
       this.winner = 'red';
       this.playing = false;
     }
+
+    return true;
   }
 
   calculateScores() {

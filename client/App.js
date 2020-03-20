@@ -8,6 +8,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       messages: [],
+      usernames: {},
       gameState: {},
     };
   }
@@ -17,6 +18,10 @@ class App extends React.Component {
 
     window.socket.on('chat message', (msg) => {
       this.setState({ messages: [...this.state.messages, msg] });
+    });
+
+    window.socket.on('usernames', (msg) => {
+      this.setState({ usernames: msg });
     });
 
     window.socket.on('game state update', (gameState) => {
@@ -45,6 +50,13 @@ class App extends React.Component {
     window.socket.emit('chooseLeader', player);
   }
 
+  updateName() {
+    const name = window.prompt('Enter your name');
+    if (name !== null && name !== '') {
+      window.socket.emit('setUsername', name);
+    }
+  }
+
   render() {
     const { roomName, socketId } = this.props;
     const { messages, gameState } = this.state;
@@ -57,20 +69,34 @@ class App extends React.Component {
     return (
       <div>
         <div className="header">
-          <h1>
-            Currently playing in
-            { roomName }
-          </h1>
-          You are
-          {' '}
-          { socketId }
+          { gameState.winner ? (
+            <h1>
+              Winner:
+              { gameState.winner }
+              {' '}
+              team!
+            </h1>
+          )
+            : (
+              <h1>
+                Currently playing in
+                { roomName }
+              </h1>
+            ) }
+
+          <div className={(gameState.redPlayers || []).indexOf(window.socket.id) >= 0 ? 'playerRed' : 'playerBlue'}>
+            You are
+            {' '}
+            { this.state.usernames[socketId] || socketId }
+          </div>
+          <button onClick={this.updateName}>Change name</button>
           <br />
           Game is
           {' '}
           <b>{ gameState.playing ? 'playing' : 'not playing' }</b>
         </div>
         <Codenames gameState={gameState} syncState={this.syncState.bind(this)} chooseTile={this.chooseTile.bind(this)} />
-        <TeamDisplay gameState={gameState} chooseLeader={this.chooseLeader.bind(this)} />
+        <TeamDisplay gameState={gameState} chooseLeader={this.chooseLeader.bind(this)} usernames={this.state.usernames} />
         <ChatPanel messages={messages} sendMessage={this.sendMessage.bind(this)} />
       </div>
     );

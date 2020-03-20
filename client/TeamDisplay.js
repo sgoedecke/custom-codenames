@@ -2,6 +2,7 @@ import React from 'react';
 
 
 const TeamDisplay = ({
+  usernames,
   gameState: {
     redPlayers, bluePlayers, redLeader, blueLeader,
   }, chooseLeader,
@@ -12,7 +13,7 @@ const TeamDisplay = ({
   const listPlayers = (players) => (
     players.map((p) => (
       <div key={p}>
-        {p}
+        {usernames[p] || p}
         {' '}
         {(p === redLeader || p === blueLeader) && '(clue-giver)'}
       </div>

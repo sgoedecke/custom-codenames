@@ -23,6 +23,9 @@ class Codenames extends React.Component {
     if (gameState.assassinTile === tile) {
       return 'assassinTile';
     }
+    if (gameState.revealedTiles.indexOf(tile) > 0) {
+      return 'revealedTile';
+    }
     return '';
   }
 

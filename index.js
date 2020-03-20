@@ -15,6 +15,7 @@ app.get('/', (req, res) => {
 app.use('/assets', express.static(`${__dirname}/assets`));
 
 const gameStates = {};
+const userMapping = {};
 
 io.on('connection', (socket) => {
   // associate socket with game room from hash param
@@ -61,15 +62,24 @@ io.on('connection', (socket) => {
 
   socket.on('chooseTile', (msg) => {
     if (!currentGame) { return; }
-    currentGame.chooseTile(msg, socket.id);
+    const success = currentGame.chooseTile(msg, socket.id);
+
+    const user = userMapping[socket.id] || socket.id;
+    if (success) { io.to(roomName).emit('chat message', `${user} chose tile ${msg}`); }
     emitGameUpdate();
   });
 
 
   // handle chat
+  socket.on('setUsername', (msg) => {
+    userMapping[socket.id] = msg;
+    io.to(roomName).emit('usernames', userMapping);
+  });
+
   socket.on('chat message', (msg) => {
     console.log(`sending ${JSON.stringify(msg)} to ${roomName}`);
-    io.to(roomName).emit('chat message', msg);
+    const user = userMapping[socket.id] || socket.id;
+    io.to(roomName).emit('chat message', `${user}: ${msg}`);
   });
 });
 
