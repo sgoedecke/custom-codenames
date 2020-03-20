@@ -1,4 +1,5 @@
 import React from 'react';
+import { v4 as uuid } from 'uuid';
 import ChatPanel from './ChatPanel';
 import Codenames from './Codenames';
 import TeamDisplay from './TeamDisplay';
@@ -63,7 +64,15 @@ class App extends React.Component {
 
     if (!roomName) {
       // TODO: extract to landing page component
-      return (<div>Go to #some-room to start a new game</div>);
+      return (
+        <div>
+          <h1>Welcome!</h1>
+
+          <a href={`?new#${uuid()}`}>Start a random game!</a>
+
+          <p>To invite others to your game, just share the URL of your game with them</p>
+        </div>
+      );
     }
 
     return (
