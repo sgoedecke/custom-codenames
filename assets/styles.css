@@ -114,6 +114,5 @@ form button {
 }
 
 .revealedTile {
-  border-color: grey;
-  background: rgba(0,0,0, 0.2)
+  font-size: 0;
 }

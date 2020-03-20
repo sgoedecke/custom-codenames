@@ -14,19 +14,22 @@ class Codenames extends React.Component {
     const { gameState } = this.props;
     if (!gameState.redTiles) { return ''; }
 
+    let revealed = '';
+    if (gameState.revealedTiles.indexOf(tile) >= 0) {
+      revealed = ' revealedTile';
+    }
+
     if (gameState.redTiles.indexOf(tile) >= 0) {
-      return 'redTile';
+      return `redTile${revealed}`;
     }
     if (gameState.blueTiles.indexOf(tile) >= 0) {
-      return 'blueTile';
+      return `blueTile${revealed}`;
     }
     if (gameState.assassinTile === tile) {
-      return 'assassinTile';
+      return `assassinTile${revealed}`;
     }
-    if (gameState.revealedTiles.indexOf(tile) > 0) {
-      return 'revealedTile';
-    }
-    return '';
+
+    return revealed;
   }
 
   render() {
