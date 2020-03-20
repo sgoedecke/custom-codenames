@@ -16,7 +16,7 @@
     "socket.io": "^2.3.0"
   },
   "scripts": {
-    "server": "node index.js",
+    "start": "node index.js",
     "build": "webpack",
     "lint": "eslint --fix index.js client/*.js server/*.js"
   },
