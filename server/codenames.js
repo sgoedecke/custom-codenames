@@ -96,10 +96,14 @@ class CodenamesGame {
     // switch turn if the pick missed
     const targetTiles = this.redPlayers.indexOf(player) >= 0 ? this.redTiles : this.blueTiles;
     if (targetTiles.indexOf(tile) < 0) {
-      this.currentTurn = this.currentTurn === 'red' ? 'blue' : 'red';
+      endTurn();
     }
 
     return true;
+  }
+
+  endTurn() {
+    this.currentTurn = this.currentTurn === 'red' ? 'blue' : 'red';
   }
 
   calculateScores() {

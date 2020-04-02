@@ -69,6 +69,14 @@ io.on('connection', (socket) => {
     emitGameUpdate();
   });
 
+  socket.on('endTurn', () => {
+    if (!currentGame) { return; }
+    const success = currentGame.endTurn(socket.id);
+
+    const user = userMapping[socket.id] || socket.id;
+    if (success) { io.to(roomName).emit('chat message', `${user} ended the turn`); }
+    emitGameUpdate();
+  });
 
   // handle chat
   socket.on('setUsername', (msg) => {

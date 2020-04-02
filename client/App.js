@@ -5,6 +5,7 @@ import ChatPanel from './ChatPanel';
 import Codenames from './Codenames';
 import TeamDisplay from './TeamDisplay';
 import AppHeader from './AppHeader';
+import TurnDisplay from './TurnDisplay';
 
 class App extends React.Component {
   constructor(props) {
@@ -48,6 +49,11 @@ class App extends React.Component {
     window.socket.emit('chooseTile', tile);
   }
 
+  endTurn(player) {
+    console.log('ending turn', player);
+    window.socket.emit('endTurn');
+  }
+
   chooseLeader(player) {
     console.log('choosing leader', player);
     window.socket.emit('chooseLeader', player);
@@ -74,6 +80,7 @@ class App extends React.Component {
       <ThemeProvider theme={{ ...DEFAULT_THEME }}>
         <AppHeader gameState={gameState} socketId={socketId} roomName={roomName} usernames={this.state.usernames} />
         <Codenames gameState={gameState} syncState={this.syncState.bind(this)} chooseTile={this.chooseTile.bind(this)} />
+        <TurnDisplay gameState={gameState} endTurn={this.endTurn.bind(this)} />
         <TeamDisplay gameState={gameState} chooseLeader={this.chooseLeader.bind(this)} usernames={this.state.usernames} />
         <ChatPanel messages={messages} sendMessage={this.sendMessage.bind(this)} />
       </ThemeProvider>

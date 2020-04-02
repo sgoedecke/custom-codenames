@@ -32,6 +32,7 @@ p {
 .game {
   height: 48vh;
   width: 700px;
+  display: inline-block;
 }
 
 .playerRed {
@@ -73,6 +74,29 @@ p {
   cursor: pointer;
 }
 
+.turnDisplay {
+  width: 300px;
+  height: 100px;
+  border: 2px solid;
+  border-color: black;
+  box-shadow: 2px 2px;
+  float: right;
+  display: inline-block;
+  position: relative;
+}
+
+.turnDisplay button {
+  padding: 5px;
+  border-color: black;
+  box-shadow: 2px 2px;
+  cursor: pointer;
+  width: 70px;
+  display: block;
+  position: absolute;
+  margin-left: calc(50% - 35px);
+  margin-top: 10px;
+}
+
 .red-team {
   margin-right: 30px;
 }
@@ -102,4 +126,23 @@ p {
 
 .revealedTile {
   font-size: 0;
+}
+
+.red-text {
+  color: red;
+}
+
+.blue-text {
+  color: blue;
+}
+
+.turn-text {
+  font-size: 1.5em;
+  text-align: center;
+}
+
+.waiting-text {
+  text-align: center;
+  font-size: 1.2em;
+  margin-top: 10px;
 }
