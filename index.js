@@ -78,6 +78,12 @@ io.on('connection', (socket) => {
     emitGameUpdate();
   });
 
+  socket.on('submitClue', (clue, guesses) => {
+    if (!currentGame) { return; }
+    currentGame.submitClue(clue, guesses, socket.id);
+    emitGameUpdate();
+  });
+
   // handle chat
   socket.on('setUsername', (msg) => {
     userMapping[socket.id] = msg;

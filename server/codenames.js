@@ -1,6 +1,7 @@
 const shuffle = require('shuffle-array');
 const _ = require('lodash');
 const emojis = Object.values(require('./emojis'));
+const Turn = require('./turn.js').default;
 
 class CodenamesGame {
   constructor() {
@@ -20,6 +21,7 @@ class CodenamesGame {
     this.playing = false;
     this.winner = undefined;
     this.currentTurn = 'red'; // red goes first
+    this.turn = new Turn();
   }
 
   generateTiles(num) {
@@ -68,12 +70,13 @@ class CodenamesGame {
   }
 
   chooseTile(tile, player) {
-    if (this.winner || !this.playing) { return false; }
+    if (this.winner || !this.playing || !this.turn.submitted) { return false; }
     if (player === this.redLeader || player === this.blueLeader) { return false; }
     if (this.revealedTiles.indexOf(tile) >= 0) { return false; }
     if (this.bluePlayers.indexOf(player) >= 0 && this.currentTurn === 'red') { return false; }
     if (this.redPlayers.indexOf(player) >= 0 && this.currentTurn === 'blue') { return false; }
 
+    this.turn.remainingGuesses -= 1;
     this.revealedTiles = this.revealedTiles.concat(tile);
 
     // check if the tile is the assassin
@@ -93,17 +96,22 @@ class CodenamesGame {
       this.playing = false;
     }
 
-    // switch turn if the pick missed
+    // switch turn if the pick missed or if there are no more guesses left for this turn
     const targetTiles = this.redPlayers.indexOf(player) >= 0 ? this.redTiles : this.blueTiles;
-    if (targetTiles.indexOf(tile) < 0) {
-      endTurn();
+    if (targetTiles.indexOf(tile) < 0 || this.turn.remainingGuesses === 0) {
+      this.endTurn();
     }
 
     return true;
   }
 
   endTurn() {
+    this.turn = new Turn();
     this.currentTurn = this.currentTurn === 'red' ? 'blue' : 'red';
+  }
+
+  submitClue(clue, guesses) {
+    this.turn.setTurnDetails(clue, parseInt(guesses) + 1);
   }
 
   calculateScores() {
@@ -131,6 +139,7 @@ class CodenamesGame {
       revealedTiles: this.revealedTiles,
       playing: this.playing,
       winner: this.winner,
+      turn: this.turn,
     };
 
     // leaders see all tiles revealed; everyone else only sees picked ones
