@@ -8,14 +8,6 @@ form {
   bottom: 0;
   width: 700px;
 }
-form input { border: 1px solid black; padding: 10px; width: 90%; margin-right: .5%; }
-form button {
-  width: 9%;
-  padding: 10px;
-  border-color: black;
-  box-shadow: 2px 2px;
-  cursor: pointer;
-}
 
 p {
   margin-top: 4px;
@@ -181,4 +173,50 @@ p {
   font-size: 1.2em;
   padding: 5px;
   text-align: center;
+}
+
+.chat-message {
+  white-space: pre-line;
+}
+
+.chat-message-red::first-line {
+  color: red;
+}
+
+.chat-message-blue::first-line {
+  color: blue;
+}
+
+.chat-message::first-line {
+  font-weight: 700;
+}
+
+.new-messages {
+  text-decoration: underline;
+  color: darkslategray;
+  font-style: italic;
+  cursor: pointer;
+}
+
+.new-messages:hover {
+  font-weight: 600;
+}
+
+.chat-area {
+  float: left;
+  border: 1px solid black;
+  padding: 10px;
+  width: 90%;
+  max-width: 90%;
+  margin-right: .5%;
+  margin-bottom: 50px;
+}
+
+.chat-submit {
+  float: right;
+  width: 9%;
+  padding: 10px;
+  border-color: black;
+  box-shadow: 2px 2px;
+  cursor: pointer;
 }

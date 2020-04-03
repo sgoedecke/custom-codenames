@@ -5,18 +5,56 @@ class ChatPanel extends React.Component {
     super(props);
     this.state = {
       draftMessage: '',
+      newMessages: false,
     };
+  }
+
+  keyDown(e) {
+    if(e.keyCode === 13 && !e.shiftKey) {
+      e.preventDefault();
+      document.forms['chat'].requestSubmit();
+    }
+  }
+
+  scrollToBottom(force) {
+    const objDiv = document.getElementById('messagePanel');
+    if(force || objDiv.scrollHeight - objDiv.scrollTop < 250) {
+      objDiv.scrollTop = objDiv.scrollHeight;
+      this.setState({ newMessages: false });
+      return true;
+    }
+    return false;
+  }
+
+  clearNewMessagesIfRead() {
+    if(this.state.newMessages === false) { return; }
+    const objDiv = document.getElementById('messagePanel');
+    if(objDiv.scrollHeight - objDiv.scrollTop < 250) {
+      this && this.setState({ newMessages: false });
+    };
+  }
+
+  componentDidUpdate(prevProps) {
+    if(prevProps.messages === this.props.messages) { return; };
+    if(!this.scrollToBottom() && this.state.newMessages === false) {
+      this.setState({ newMessages: true });
+    }
   }
 
   // TODO: scrolling messages
   render() {
     const { messages, sendMessage } = this.props;
+    const { newMessages } = this.state;
     return (
       <div>
-        <div className="messages">
-          { messages.map((m, i) => (<div key={i}>{m}</div>)) }
+        <div id='messagePanel' className="messages" onScroll={this.clearNewMessagesIfRead.bind(this)}>
+          { messages.map((m, i) => (
+            <p className={`chat-message chat-message-${m.color}`} key={i}>{m.message}</p>)
+          )}
         </div>
+        { newMessages && <span className='new-messages' onClick={() => this.scrollToBottom(true)}>New messages</span> }
         <form
+          id='chat'
           action=""
           onSubmit={(e) => {
             e.preventDefault();
@@ -27,8 +65,8 @@ class ChatPanel extends React.Component {
             return false;
           }}
         >
-          <input onChange={(e) => { this.setState({ draftMessage: e.target.value }); }} value={this.state.draftMessage} />
-          <button>Send</button>
+          <textarea className='chat-area' onChange={(e) => { this.setState({ draftMessage: e.target.value }); }} value={this.state.draftMessage} onKeyDown={this.keyDown} />
+          <button className='chat-submit'>Send</button>
         </form>
       </div>
     );

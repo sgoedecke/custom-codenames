@@ -68,7 +68,7 @@ io.on('connection', (socket) => {
     const success = currentGame.chooseTile(msg, socket.id);
 
     const user = userMapping[socket.id] || socket.id;
-    if (success) { io.to(roomName).emit('chat message', `${user} chose tile ${msg}`); }
+    if (success) { io.to(roomName).emit('chat message', `${user} chose tile ${msg}`, currentGame.getPlayerColor(socket.id)); }
     emitGameUpdate();
   });
 
@@ -77,7 +77,7 @@ io.on('connection', (socket) => {
     const success = currentGame.endTurn(socket.id);
 
     const user = userMapping[socket.id] || socket.id;
-    if (success) { io.to(roomName).emit('chat message', `${user} ended the turn`); }
+    if (success) { io.to(roomName).emit('chat message', `${user} ended the turn`, currentGame.getPlayerColor(socket.id)); }
     emitGameUpdate();
   });
 
@@ -96,7 +96,7 @@ io.on('connection', (socket) => {
   socket.on('chat message', (msg) => {
     console.log(`sending ${JSON.stringify(msg)} to ${roomName}`);
     const user = userMapping[socket.id] || socket.id;
-    io.to(roomName).emit('chat message', `${user}: ${msg}`);
+    io.to(roomName).emit('chat message', `${user}:\n ${msg}`, currentGame.getPlayerColor(socket.id));
   });
 });
 

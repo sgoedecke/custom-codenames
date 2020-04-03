@@ -20,8 +20,8 @@ class App extends React.Component {
   componentDidMount() {
     if (!this.props.roomName) { return; }
 
-    window.socket.on('chat message', (msg) => {
-      this.setState({ messages: [...this.state.messages, msg] });
+    window.socket.on('chat message', (msg, color) => {
+      this.setState({ messages: [...this.state.messages, {message: msg, color}] });
     });
 
     window.socket.on('usernames', (msg) => {
@@ -89,7 +89,7 @@ class App extends React.Component {
         <Codenames gameState={gameState} syncState={this.syncState.bind(this)} chooseTile={this.chooseTile.bind(this)} />
         <TurnDisplay gameState={gameState} submitClue={this.submitClue.bind(this)} endTurn={this.endTurn.bind(this)} />
         <TeamDisplay gameState={gameState} chooseLeader={this.chooseLeader.bind(this)} usernames={this.state.usernames} />
-        <ChatPanel messages={messages} sendMessage={this.sendMessage.bind(this)} />
+        <ChatPanel messages={messages} sendMessage={this.sendMessage.bind(this)} gameState={gameState} />
       </ThemeProvider>
     );
   }

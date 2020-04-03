@@ -120,6 +120,15 @@ class CodenamesGame {
     this.turn.setTurnDetails(clue, parseInt(guesses) + 1);
   }
 
+  getPlayerColor(player) {
+    if(this.redPlayers.indexOf(player) >= 0) {
+      return 'red';
+    }
+    else if(this.bluePlayers.indexOf(player) >= 0) {
+      return 'blue';
+    }
+  }
+
   calculateScores() {
     let redScore; let
       blueScore = 0;
