@@ -21,22 +21,6 @@ p {
   margin-top: 4px;
 }
 
-.header {
-  padding-bottom: 10px;
-}
-
-.header h1 {
-  padding-bottom: 10px;
-}
-
-.header button {
-  border-color: black;
-  box-shadow: 2px 2px;
-  padding: 5px;
-  margin-left: 10px;
-  margin-bottom: 6px;
-}
-
 .messages {
   border-top: 1px solid black;
   padding-top: 10px;

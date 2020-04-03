@@ -1,8 +1,10 @@
 import React from 'react';
 import { v4 as uuid } from 'uuid';
+import { ThemeProvider, DEFAULT_THEME } from '@zendeskgarden/react-theming';
 import ChatPanel from './ChatPanel';
 import Codenames from './Codenames';
 import TeamDisplay from './TeamDisplay';
+import AppHeader from './AppHeader';
 
 class App extends React.Component {
   constructor(props) {
@@ -51,13 +53,6 @@ class App extends React.Component {
     window.socket.emit('chooseLeader', player);
   }
 
-  updateName() {
-    const name = window.prompt('Enter your name');
-    if (name !== null && name !== '') {
-      window.socket.emit('setUsername', name);
-    }
-  }
-
   render() {
     const { roomName, socketId } = this.props;
     const { messages, gameState } = this.state;
@@ -76,47 +71,12 @@ class App extends React.Component {
     }
 
     return (
-      <div>
-        <div className="header">
-          { gameState.winner ? (
-            <h1>
-              Winner:
-              { gameState.winner }
-              {' '}
-              team!
-            </h1>
-          )
-            : (
-              <h1>
-                Currently playing in
-                {' '}
-                { roomName }
-              </h1>
-            ) }
-
-          <div className={(gameState.redPlayers || []).indexOf(window.socket.id) >= 0 ? 'playerRed' : 'playerBlue'}>
-            You are
-            {' '}
-            { this.state.usernames[socketId] || socketId }
-
-            <button onClick={this.updateName}>Change name</button>
-          </div>
-          <p>
-            Game is
-            {' '}
-            <b>{ gameState.playing ? 'playing' : 'not playing' }</b>
-          </p>
-          { gameState.playing && (
-          <p>
-            Current turn:
-            {gameState.currentTurn}
-          </p>
-          )}
-        </div>
+      <ThemeProvider theme={{ ...DEFAULT_THEME }}>
+        <AppHeader gameState={gameState} socketId={socketId} roomName={roomName} usernames={this.state.usernames} />
         <Codenames gameState={gameState} syncState={this.syncState.bind(this)} chooseTile={this.chooseTile.bind(this)} />
         <TeamDisplay gameState={gameState} chooseLeader={this.chooseLeader.bind(this)} usernames={this.state.usernames} />
         <ChatPanel messages={messages} sendMessage={this.sendMessage.bind(this)} />
-      </div>
+      </ThemeProvider>
     );
   }
 }

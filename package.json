@@ -8,13 +8,19 @@
   "license": "MIT",
   "private": false,
   "dependencies": {
+    "@zendeskgarden/react-buttons": "^8.4.1",
+    "@zendeskgarden/react-grid": "^8.4.1",
+    "@zendeskgarden/react-theming": "^8.4.1",
+    "@zendeskgarden/react-typography": "^8.4.1",
     "express": "4.15.2",
     "lodash": "^4.17.15",
+    "prop-types": "^15.7.2",
     "random-words": "^1.1.0",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
     "shuffle-array": "^1.0.1",
     "socket.io": "^2.3.0",
+    "styled-components": "^5.0.1",
     "uuid": "^7.0.2"
   },
   "scripts": {
