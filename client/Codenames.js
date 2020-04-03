@@ -34,6 +34,7 @@ class Codenames extends React.Component {
 
   render() {
     const { gameState, chooseTile } = this.props;
+    const { gameType } = gameState;
     console.log('state', gameState);
     if (!gameState.tiles) { return null; }
     const { tiles } = gameState;
@@ -41,7 +42,7 @@ class Codenames extends React.Component {
       <div className="game">
         <div className="tiles">
           { tiles.map((tile) => (
-            <div key={tile} onClick={() => { chooseTile(tile); }} className={`tile ${this.getClass(tile)}`}>
+            <div key={tile} onClick={() => { chooseTile(tile); }} className={`${gameType}-tile ${this.getClass(tile)}`}>
               {tile}
             </div>
           ))}

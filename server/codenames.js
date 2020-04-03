@@ -1,13 +1,19 @@
 const shuffle = require('shuffle-array');
 const _ = require('lodash');
 const emojis = Object.values(require('./emojis'));
+const words = Object.values(require('./words'));
 const Turn = require('./turn.js').default;
+const tileTypes = {
+  'pictures': emojis,
+  'words': words
+}
 
 class CodenamesGame {
-  constructor() {
+  constructor(gameType) {
     // generate a list of 25 tiles. we don't need to track order, just
     // remember which words belong to which team and sort it out at runtime.
-    this.tiles = this.generateTiles(25);
+    this.gameType = gameType;
+    this.tiles = this.generateTiles(gameType, 25);
     this.redTiles = this.tiles.slice(0, 9); // 9 tiles for red
     this.blueTiles = this.tiles.slice(9, 16); // 8 for blue
     this.assassinTile = this.tiles[16];
@@ -24,9 +30,9 @@ class CodenamesGame {
     this.turn = new Turn();
   }
 
-  generateTiles(num) {
-    const words = _.sampleSize(emojis, num);
-    return words;
+  generateTiles(tileType, num) {
+    const tiles = _.sampleSize(tileTypes[tileType], num);
+    return tiles;
   }
 
   // add a new player to the team with the fewest players
@@ -140,6 +146,7 @@ class CodenamesGame {
       playing: this.playing,
       winner: this.winner,
       turn: this.turn,
+      gameType: this.gameType,
     };
 
     // leaders see all tiles revealed; everyone else only sees picked ones

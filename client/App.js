@@ -67,6 +67,7 @@ class App extends React.Component {
   render() {
     const { roomName, socketId } = this.props;
     const { messages, gameState } = this.state;
+    const id = uuid();
 
     if (!roomName) {
       // TODO: extract to landing page component
@@ -74,8 +75,9 @@ class App extends React.Component {
         <div>
           <h1>Welcome!</h1>
 
-          <a href={`?new#${uuid()}`}>Start a random game!</a>
-
+          <a href={`?type=pictures&new#${id}`}>Start a random game with pictures!</a>
+          <br />
+          <a href={`?type=words&new#${id}?words`}>Start a random game with words!</a>
           <p>To invite others to your game, just share the URL of your game with them</p>
         </div>
       );

@@ -7,6 +7,7 @@ import App from './App';
 
 window.socket = io({
   query: {
+    type: new URLSearchParams(window.location.search).get('type'),
     roomName: window.location.hash,
   },
 });
