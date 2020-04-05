@@ -20,7 +20,7 @@ class CodenamesGame {
     this.tiles = tiles ? this.decodeTiles(tiles, 25) : this.generateTiles(gameType, 25);
     this.redTiles = this.tiles.slice(0, 9); // 9 tiles for red
     this.blueTiles = this.tiles.slice(9, 17); // 8 for blue
-    this.assassinTile = this.tiles[16];
+    this.assassinTile = this.tiles[17];
     shuffle(this.tiles); // shuffle to randomize who has what tiles
 
     this.redPlayers = [];
@@ -100,7 +100,7 @@ class CodenamesGame {
 
     // check if the tile is the assassin
     if (tile === this.assassinTile) {
-      const otherTeam = this.bluePlayers.indexOf(player) > 0 ? 'blue' : 'red';
+      const otherTeam = this.bluePlayers.indexOf(player) > 0 ? 'red' : 'blue';
       this.winner = otherTeam;
       this.playing = false;
     }
