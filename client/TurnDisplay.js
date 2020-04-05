@@ -87,7 +87,7 @@ class TurnDetailSubmission extends React.Component {
         <br />
         <label># of guesses</label>
         <input type="number" onChange={(e) => { this.setState({ guesses: e.target.value }); }} value={this.state.guesses} />
-        <Button>Submit</Button>
+        <button type='submit'>Submit</button>
       </form>
     );
   }

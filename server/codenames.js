@@ -19,7 +19,7 @@ class CodenamesGame {
     console.log('TILES', !!tiles);
     this.tiles = tiles ? this.decodeTiles(tiles, 25) : this.generateTiles(gameType, 25);
     this.redTiles = this.tiles.slice(0, 9); // 9 tiles for red
-    this.blueTiles = this.tiles.slice(9, 16); // 8 for blue
+    this.blueTiles = this.tiles.slice(9, 17); // 8 for blue
     this.assassinTile = this.tiles[16];
     shuffle(this.tiles); // shuffle to randomize who has what tiles
 
