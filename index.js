@@ -19,7 +19,7 @@ const userMapping = {};
 
 io.on('connection', (socket) => {
   // associate socket with game room from hash param
-  const { roomName, type } = socket.handshake.query;
+  const { roomName, type, tiles } = socket.handshake.query;
   if (!roomName) { return; }
   // default to pictures game type
   const gameType = type || 'pictures';
@@ -38,7 +38,7 @@ io.on('connection', (socket) => {
   // TODO: clean up the game when it's finished to avoid leaking memory
   let currentGame = gameStates[roomName];
   if (!currentGame) {
-    gameStates[roomName] = new CodenamesGame(gameType);
+    gameStates[roomName] = new CodenamesGame(gameType, tiles);
     currentGame = gameStates[roomName];
   }
   currentGame.addPlayer(socket.id);

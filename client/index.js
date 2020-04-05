@@ -5,9 +5,12 @@ import App from './App';
 // make eslint happy:
 /* global io */
 
+const urlParams = new URLSearchParams(window.location.search);
+
 window.socket = io({
   query: {
-    type: new URLSearchParams(window.location.search).get('type'),
+    type: urlParams.get('type'),
+    tiles: urlParams.get('tiles'),
     roomName: window.location.hash,
   },
 });

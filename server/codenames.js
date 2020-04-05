@@ -1,19 +1,21 @@
 const shuffle = require('shuffle-array');
 const _ = require('lodash');
+const atob = require('atob');
 const emojis = Object.values(require('./emojis'));
 const words = Object.values(require('./words'));
 const Turn = require('./turn.js').default;
-const tileTypes = {
-  'pictures': emojis,
-  'words': words
-}
+
+const premadeTileTypes = {
+  pictures: emojis,
+  words,
+};
 
 class CodenamesGame {
-  constructor(gameType) {
+  constructor(gameType, tiles = null) {
     // generate a list of 25 tiles. we don't need to track order, just
     // remember which words belong to which team and sort it out at runtime.
     this.gameType = gameType;
-    this.tiles = this.generateTiles(gameType, 25);
+    this.tiles = tiles ? this.decodeTiles(tiles, 25) : this.generateTiles(gameType, 25);
     this.redTiles = this.tiles.slice(0, 9); // 9 tiles for red
     this.blueTiles = this.tiles.slice(9, 16); // 8 for blue
     this.assassinTile = this.tiles[16];
@@ -30,8 +32,17 @@ class CodenamesGame {
     this.turn = new Turn();
   }
 
+  decodeTiles(tiles, num) {
+    try {
+      return _.sampleSize(JSON.parse(atob(tiles)), num);
+    } catch (err) {
+      console.log('ERROR DECODING TILES: ', err);
+      return this.generateTiles('pictures', num); // fallback to emoji if the data ain't right
+    }
+  }
+
   generateTiles(tileType, num) {
-    const tiles = _.sampleSize(tileTypes[tileType], num);
+    const tiles = _.sampleSize(premadeTileTypes[tileType], num);
     return tiles;
   }
 
@@ -117,14 +128,14 @@ class CodenamesGame {
   }
 
   submitClue(clue, guesses) {
-    this.turn.setTurnDetails(clue, parseInt(guesses) + 1);
+    this.turn.setTurnDetails(clue, parseInt(guesses) + 1, guesses);
   }
 
   getPlayerColor(player) {
-    if(this.redPlayers.indexOf(player) >= 0) {
+    if (this.redPlayers.indexOf(player) >= 0) {
       return 'red';
     }
-    else if(this.bluePlayers.indexOf(player) >= 0) {
+    if (this.bluePlayers.indexOf(player) >= 0) {
       return 'blue';
     }
   }

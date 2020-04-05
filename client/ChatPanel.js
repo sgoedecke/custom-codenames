@@ -10,15 +10,15 @@ class ChatPanel extends React.Component {
   }
 
   keyDown(e) {
-    if(e.keyCode === 13 && !e.shiftKey) {
+    if (e.keyCode === 13 && !e.shiftKey) {
       e.preventDefault();
-      document.forms['chat'].requestSubmit();
+      document.forms.chat.requestSubmit();
     }
   }
 
   scrollToBottom(force) {
     const objDiv = document.getElementById('messagePanel');
-    if(force || objDiv.scrollHeight - objDiv.scrollTop < 250) {
+    if (force || objDiv.scrollHeight - objDiv.scrollTop < 250) {
       objDiv.scrollTop = objDiv.scrollHeight;
       this.setState({ newMessages: false });
       return true;
@@ -27,16 +27,16 @@ class ChatPanel extends React.Component {
   }
 
   clearNewMessagesIfRead() {
-    if(this.state.newMessages === false) { return; }
+    if (this.state.newMessages === false) { return; }
     const objDiv = document.getElementById('messagePanel');
-    if(objDiv.scrollHeight - objDiv.scrollTop < 250) {
+    if (objDiv.scrollHeight - objDiv.scrollTop < 250) {
       this && this.setState({ newMessages: false });
-    };
+    }
   }
 
   componentDidUpdate(prevProps) {
-    if(prevProps.messages === this.props.messages) { return; };
-    if(!this.scrollToBottom() && this.state.newMessages === false) {
+    if (prevProps.messages === this.props.messages) { return; }
+    if (!this.scrollToBottom() && this.state.newMessages === false) {
       this.setState({ newMessages: true });
     }
   }
@@ -47,14 +47,13 @@ class ChatPanel extends React.Component {
     const { newMessages } = this.state;
     return (
       <div>
-        <div id='messagePanel' className="messages" onScroll={this.clearNewMessagesIfRead.bind(this)}>
+        <div id="messagePanel" className="messages" onScroll={this.clearNewMessagesIfRead.bind(this)}>
           { messages.map((m, i) => (
-            <p className={`chat-message chat-message-${m.color}`} key={i}>{m.message}</p>)
-          )}
+            <p className={`chat-message chat-message-${m.color}`} key={i}>{m.message}</p>))}
         </div>
-        { newMessages && <span className='new-messages' onClick={() => this.scrollToBottom(true)}>New messages</span> }
+        { newMessages && <span className="new-messages" onClick={() => this.scrollToBottom(true)}>New messages</span> }
         <form
-          id='chat'
+          id="chat"
           action=""
           onSubmit={(e) => {
             e.preventDefault();
@@ -65,8 +64,8 @@ class ChatPanel extends React.Component {
             return false;
           }}
         >
-          <textarea className='chat-area' onChange={(e) => { this.setState({ draftMessage: e.target.value }); }} value={this.state.draftMessage} onKeyDown={this.keyDown} />
-          <button className='chat-submit'>Send</button>
+          <textarea className="chat-area" onChange={(e) => { this.setState({ draftMessage: e.target.value }); }} value={this.state.draftMessage} onKeyDown={this.keyDown} />
+          <button className="chat-submit">Send</button>
         </form>
       </div>
     );

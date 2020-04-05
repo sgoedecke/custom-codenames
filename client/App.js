@@ -12,6 +12,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       messages: [],
+      tiles: [],
       usernames: {},
       gameState: {},
     };
@@ -21,7 +22,7 @@ class App extends React.Component {
     if (!this.props.roomName) { return; }
 
     window.socket.on('chat message', (msg, color) => {
-      this.setState({ messages: [...this.state.messages, {message: msg, color}] });
+      this.setState({ messages: [...this.state.messages, { message: msg, color }] });
     });
 
     window.socket.on('usernames', (msg) => {
@@ -64,9 +65,19 @@ class App extends React.Component {
     window.socket.emit('chooseLeader', player);
   }
 
+  // TODO: this is a bit expensive for every update, maybe refactor to generating the
+  // encoded tiles only when needed
+  updateTiles(e) {
+    const tiles = e.target.value.split('\n');
+    const encodedTiles = btoa(JSON.stringify(tiles));
+    this.setState({ tiles, encodedTiles });
+  }
+
   render() {
     const { roomName, socketId } = this.props;
-    const { messages, gameState } = this.state;
+    const {
+      messages, gameState, tiles, encodedTiles,
+    } = this.state;
     const id = uuid();
 
     if (!roomName) {
@@ -75,10 +86,18 @@ class App extends React.Component {
         <div>
           <h1>Welcome!</h1>
 
+          <p>To invite others to your game, just share the URL of your game with them</p>
           <a href={`?type=pictures&new#${id}`}>Start a random game with pictures!</a>
           <br />
           <a href={`?type=words&new#${id}?words`}>Start a random game with words!</a>
-          <p>To invite others to your game, just share the URL of your game with them</p>
+          <br />
+          <a href={`?type=words&tiles=${encodedTiles}&new#${id}?words`}>Start a random game with tiles of your choice!</a>
+          <br />
+          <textarea
+            onChange={this.updateTiles.bind(this)}
+            value={tiles.join('\n')}
+            placeholder="Separate tiles with new lines. Include at least 25 tiles and avoid duplicates."
+          />
         </div>
       );
     }

@@ -4,7 +4,7 @@ const TurnDisplay = ({
   endTurn,
   submitClue,
   gameState: {
-    playing, redPlayers, redLeader, blueLeader, currentTurn, turn
+    playing, redPlayers, redLeader, blueLeader, currentTurn, turn,
   },
 }) => {
   if (!playing) { return null; }
@@ -17,15 +17,18 @@ const TurnDisplay = ({
   return (
     <div className="turn-display">
       <p className="turn-text">
-        Current turn: <span className={`${currentTurn}-text`}>{currentTurn}</span>
+        Current turn:
+        {' '}
+        <span className={`${currentTurn}-text`}>{currentTurn}</span>
       </p>
       { playersTurn ? (
         <CurrentPlayerDisplay
           isLeader={isLeader}
           turn={turn}
           submitClue={(clue, guesses) => submitClue(playerId, clue, guesses)}
-          endTurn={() => endTurn(playerId)} />
-        ) : (
+          endTurn={() => endTurn(playerId)}
+        />
+      ) : (
         <OpponentPlayerDisplay turn={turn} />
       )}
     </div>
@@ -37,26 +40,22 @@ const CurrentPlayerDisplay = ({
   turn,
   submitClue,
   endTurn,
-}) => {
-  return (
-    <div>
-      {turn.submitted && <TurnDetails clue={turn.clue} remainingGuesses={turn.remainingGuesses} />}
-      {turn.submitted && (isLeader ? <p className="waiting-text">Waiting for teammates...</p> : <button onClick={endTurn}>End turn</button>)}
-      {!turn.submitted && (isLeader ? <TurnDetailSubmission submitClue={submitClue} /> : <p className="waiting-text">Waiting for clue...</p>)}
-    </div>
-  )
-};
+}) => (
+  <div>
+    {turn.submitted && <TurnDetails clue={turn.clue} totalGuesses={turn.totalGuesses} remainingGuesses={turn.remainingGuesses} />}
+    {turn.submitted && (isLeader ? <p className="waiting-text">Waiting for teammates...</p> : <button onClick={endTurn}>End turn</button>)}
+    {!turn.submitted && (isLeader ? <TurnDetailSubmission submitClue={submitClue} /> : <p className="waiting-text">Waiting for clue...</p>)}
+  </div>
+);
 
 const OpponentPlayerDisplay = ({
-  turn
-}) => {
-  return (
-    <div>
-      {turn.submitted && <TurnDetails clue={turn.clue} remainingGuesses={turn.remainingGuesses} />}
-      <p className="waiting-text">Waiting for turn...</p>
-    </div>
-  )
-};
+  turn,
+}) => (
+  <div>
+    {turn.submitted && <TurnDetails clue={turn.clue} totalGuesses={turn.totalGuesses} remainingGuesses={turn.remainingGuesses} />}
+    <p className="waiting-text">Waiting for turn...</p>
+  </div>
+);
 
 class TurnDetailSubmission extends React.Component {
   constructor(props) {
@@ -69,10 +68,10 @@ class TurnDetailSubmission extends React.Component {
 
   render() {
     const { submitClue } = this.props;
-    return(
+    return (
       <form
-        className='clue-form'
-        action=''
+        className="clue-form"
+        action=""
         onSubmit={(e) => {
           e.preventDefault();
           if (this.state.clue && this.state.guesses > 0) {
@@ -84,24 +83,27 @@ class TurnDetailSubmission extends React.Component {
       >
         <label>Clue</label>
         <input onChange={(e) => { this.setState({ clue: e.target.value }); }} value={this.state.clue} />
-        <br/>
+        <br />
         <label># of guesses</label>
-        <input type='number' onChange={(e) => { this.setState({ guesses: e.target.value }); }} value={this.state.guesses} />
+        <input type="number" onChange={(e) => { this.setState({ guesses: e.target.value }); }} value={this.state.guesses} />
         <button>Submit</button>
       </form>
-    )
+    );
   }
-};
+}
 
 const TurnDetails = ({
   clue,
   remainingGuesses,
-}) => {
-  return (
-    <p className='turn-details'>
-      {`Clue: ${clue} Remaining guesses: ${remainingGuesses}`}
-    </p>
-  )
-};
+  totalGuesses,
+}) => (
+  <p className="turn-details">
+    {`Clue: ${clue} (for ${totalGuesses})` }
+    <br />
+    Remaining guesses:
+    {' '}
+    { remainingGuesses }
+  </p>
+);
 
 export default TurnDisplay;
