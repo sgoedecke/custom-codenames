@@ -1,7 +1,9 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body {
   font: 13px Helvetica, Arial;
-  padding: 20px;
+  padding-top: 20px;
+  padding-left: 20%;
+  padding-right: 20%;
 }
 form {
   padding: 3px;
@@ -11,6 +13,10 @@ form {
 
 p {
   margin-top: 4px;
+}
+
+.app-header {
+  width: 700px;
 }
 
 .messages {
@@ -73,11 +79,7 @@ p {
 }
 
 .players button {
-  padding: 5px;
   margin-left: 20px;
-  border-color: black;
-  box-shadow: 2px 2px;
-  cursor: pointer;
 }
 
 .turn-display {
@@ -87,19 +89,14 @@ p {
   border: 2px solid;
   border-color: black;
   box-shadow: 2px 2px;
-  float: right;
-  display: inline-block;
-  position: relative;
+  position: absolute;
+  top: 20px;
+  right: 20px;
 }
 
 .turn-display button {
-  padding: 5px;
-  border-color: black;
-  box-shadow: 2px 2px;
-  cursor: pointer;
-  width: 70px;
   display: block;
-  margin-left: calc(50% - 35px);
+  margin-left: calc(50% - 45px);
   margin-top: 10px;
 }
 
@@ -206,17 +203,12 @@ p {
   float: left;
   border: 1px solid black;
   padding: 10px;
-  width: 90%;
-  max-width: 90%;
+  width: 85%;
+  max-width: 85%;
   margin-right: .5%;
   margin-bottom: 50px;
 }
 
 .chat-submit {
   float: right;
-  width: 9%;
-  padding: 10px;
-  border-color: black;
-  box-shadow: 2px 2px;
-  cursor: pointer;
 }

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Button } from '@zendeskgarden/react-buttons';
 
 const TurnDisplay = ({
   endTurn,
@@ -86,7 +87,7 @@ class TurnDetailSubmission extends React.Component {
         <br />
         <label># of guesses</label>
         <input type="number" onChange={(e) => { this.setState({ guesses: e.target.value }); }} value={this.state.guesses} />
-        <button>Submit</button>
+        <Button>Submit</Button>
       </form>
     );
   }

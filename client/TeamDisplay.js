@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { Button } from '@zendeskgarden/react-buttons';
 
 const TeamDisplay = ({
   usernames,
@@ -31,7 +31,7 @@ const TeamDisplay = ({
         { listPlayers(bluePlayers) }
       </div>
       { ((!redLeader && redPlayers.indexOf(playerId) >= 0) || (!blueLeader && bluePlayers.indexOf(playerId) >= 0))
-        && <button onClick={() => { chooseLeader(playerId); }}>Become the clue-giver!</button>}
+        && <Button onClick={() => { chooseLeader(playerId); }}>Become the clue-giver!</Button>}
     </div>
   );
 };

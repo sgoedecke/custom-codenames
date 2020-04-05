@@ -1,4 +1,5 @@
 import React from 'react';
+import { Button } from '@zendeskgarden/react-buttons';
 
 class ChatPanel extends React.Component {
   constructor(props) {
@@ -65,7 +66,7 @@ class ChatPanel extends React.Component {
           }}
         >
           <textarea className="chat-area" onChange={(e) => { this.setState({ draftMessage: e.target.value }); }} value={this.state.draftMessage} onKeyDown={this.keyDown} />
-          <button className="chat-submit">Send</button>
+          <Button className="chat-submit">Send</Button>
         </form>
       </div>
     );

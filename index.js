@@ -19,7 +19,9 @@ const userMapping = {};
 
 io.on('connection', (socket) => {
   // associate socket with game room from hash param
-  const { roomName, type, tiles } = socket.handshake.query;
+  let { roomName, type, tiles } = socket.handshake.query;
+  if (tiles == 'null') { tiles = null; } // handle strange query parsing
+
   if (!roomName) { return; }
   // default to pictures game type
   const gameType = type || 'pictures';
