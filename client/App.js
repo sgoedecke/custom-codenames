@@ -1,11 +1,18 @@
 import React from 'react';
 import { v4 as uuid } from 'uuid';
 import { ThemeProvider, DEFAULT_THEME } from '@zendeskgarden/react-theming';
+import { Grid, Row, Col } from '@zendeskgarden/react-grid';
+import styled from 'styled-components';
 import ChatPanel from './ChatPanel';
 import Codenames from './Codenames';
 import TeamDisplay from './TeamDisplay';
 import AppHeader from './AppHeader';
 import TurnDisplay from './TurnDisplay';
+
+const StyledRow = styled(Row)`
+  margin-bottom: 30px;
+`;
+
 
 class App extends React.Component {
   constructor(props) {
@@ -104,11 +111,25 @@ class App extends React.Component {
 
     return (
       <ThemeProvider theme={{ ...DEFAULT_THEME }}>
-        <AppHeader gameState={gameState} socketId={socketId} roomName={roomName} usernames={this.state.usernames} />
-        <Codenames gameState={gameState} syncState={this.syncState.bind(this)} chooseTile={this.chooseTile.bind(this)} />
-        <TurnDisplay gameState={gameState} submitClue={this.submitClue.bind(this)} endTurn={this.endTurn.bind(this)} />
-        <TeamDisplay gameState={gameState} chooseLeader={this.chooseLeader.bind(this)} usernames={this.state.usernames} />
-        <ChatPanel messages={messages} sendMessage={this.sendMessage.bind(this)} gameState={gameState} />
+        <Grid gutters="md">
+          <StyledRow justifyContent="center">
+            <AppHeader gameState={gameState} socketId={socketId} roomName={roomName} usernames={this.state.usernames} />
+          </StyledRow>
+          <StyledRow alignItems="center" justifyContentMd="center">
+            <Col md="auto">
+              <Codenames gameState={gameState} syncState={this.syncState.bind(this)} chooseTile={this.chooseTile.bind(this)} />
+            </Col>
+            <Col md="auto">
+              <TurnDisplay gameState={gameState} submitClue={this.submitClue.bind(this)} endTurn={this.endTurn.bind(this)} />
+            </Col>
+          </StyledRow>
+          <StyledRow justifyContent="center">
+            <TeamDisplay gameState={gameState} chooseLeader={this.chooseLeader.bind(this)} usernames={this.state.usernames} />
+          </StyledRow>
+          <Row justifyContent="center">
+            <ChatPanel messages={messages} sendMessage={this.sendMessage.bind(this)} gameState={gameState} />
+          </Row>
+        </Grid>
       </ThemeProvider>
     );
   }

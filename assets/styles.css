@@ -2,8 +2,6 @@
 body {
   font: 13px Helvetica, Arial;
   padding-top: 20px;
-  padding-left: 20%;
-  padding-right: 20%;
 }
 form {
   padding: 3px;
@@ -89,7 +87,6 @@ p {
   border: 2px solid;
   border-color: black;
   box-shadow: 2px 2px;
-  position: absolute;
   top: 20px;
   right: 20px;
 }
