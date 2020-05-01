@@ -1,7 +1,15 @@
+:root {
+  --main-txt-color: #333333;
+  --red-team-color: #D72729;
+  --blue-team-color: #4056A1;
+}
+
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body {
   font: 13px Helvetica, Arial;
   padding-top: 20px;
+  color: var(--main-txt-color);
+  background: #EFE2BA;
 }
 form {
   padding: 3px;
@@ -26,17 +34,16 @@ p {
 }
 
 .game {
-  height: 48vh;
   width: 700px;
   display: inline-block;
 }
 
 .playerRed {
-  color: red;
+  color: var(--red-team-color);
 }
 
 .playerBlue {
-  color: blue;
+  color:#4056A1;
 }
 
 .tiles {
@@ -48,6 +55,7 @@ p {
   width: 100px;
   height: 50px;
   margin: 10px;
+  background: #ececec;
   box-shadow: 2px 2px lightgrey;
   border: 2px solid lightgrey;
   cursor: pointer;
@@ -60,6 +68,7 @@ p {
   width: 100px;
   height: 50px;
   margin: 10px;
+  background: #ececec;
   box-shadow: 2px 2px lightgrey;
   border: 2px solid lightgrey;
   cursor: pointer;
@@ -81,7 +90,7 @@ p {
 }
 
 .turn-display {
-  background-color: white;
+  background-color: #D79922;
   padding: 10px;
   width: 300px;
   border: 2px solid;
@@ -102,20 +111,20 @@ p {
 }
 
 .red-team h3 {
-  color: red;
+  color: var(--red-team-color);
 }
 
 .blue-team h3 {
-  color: blue;
+  color: var(--blue-team-color);
 }
 
 .redTile {
-  border-color: red;
+  border-color: var(--red-team-color);
   background: rgba(255, 0, 0, 0.2)
 }
 
 .blueTile {
-  border-color: blue;
+  border-color: var(--blue-team-color);
   background: rgba(0, 0, 255, 0.2)
 }
 
@@ -129,11 +138,11 @@ p {
 }
 
 .red-text {
-  color: red;
+  color: var(--red-team-color);
 }
 
 .blue-text {
-  color: blue;
+  color: var(--blue-team-color);
 }
 
 .turn-text {
@@ -160,6 +169,7 @@ p {
 
 .clue-form input {
   width: 40%;
+  background: #ececec;
   float: right;
 }
 
@@ -174,11 +184,11 @@ p {
 }
 
 .chat-message-red::first-line {
-  color: red;
+  color: var(--red-team-color);
 }
 
 .chat-message-blue::first-line {
-  color: blue;
+  color: var(--blue-team-color);
 }
 
 .chat-message::first-line {
@@ -198,6 +208,7 @@ p {
 
 .chat-area {
   float: left;
+  background: #ececec;
   border: 1px solid black;
   padding: 10px;
   width: 85%;

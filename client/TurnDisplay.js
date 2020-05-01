@@ -20,7 +20,7 @@ const TurnDisplay = ({
       <p className="turn-text">
         Current turn:
         {' '}
-        <span className={`${currentTurn}-text`}>{currentTurn}</span>
+        <span className={`${currentTurn}-text`}>{currentTurn.charAt(0).toUpperCase() + currentTurn.substring(1)}</span>
       </p>
       { playersTurn ? (
         <CurrentPlayerDisplay
@@ -87,7 +87,7 @@ class TurnDetailSubmission extends React.Component {
         <br />
         <label># of guesses</label>
         <input type="number" onChange={(e) => { this.setState({ guesses: e.target.value }); }} value={this.state.guesses} />
-        <button type='submit'>Submit</button>
+        <button type="submit">Submit</button>
       </form>
     );
   }

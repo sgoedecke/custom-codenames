@@ -9,6 +9,18 @@ import TeamDisplay from './TeamDisplay';
 import AppHeader from './AppHeader';
 import TurnDisplay from './TurnDisplay';
 
+const theme = {
+  ...DEFAULT_THEME,
+  colors: {
+    ...DEFAULT_THEME.colors,
+    primaryHue: '#D79922',
+  },
+  borderRadii: {
+    sm: '0',
+    md: '0',
+  },
+};
+
 const StyledRow = styled(Row)`
   margin-bottom: 30px;
 `;
@@ -110,7 +122,7 @@ class App extends React.Component {
     }
 
     return (
-      <ThemeProvider theme={{ ...DEFAULT_THEME }}>
+      <ThemeProvider theme={theme}>
         <Grid gutters="md">
           <StyledRow justifyContent="center">
             <AppHeader gameState={gameState} socketId={socketId} roomName={roomName} usernames={this.state.usernames} />
