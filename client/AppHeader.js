@@ -43,7 +43,6 @@ const AppHeader = ({
               You are
               {' '}
               <span className={color}>
-                $
                 {usernames[socketId] || socketId}
               </span>
             </LG>
