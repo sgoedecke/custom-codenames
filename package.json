@@ -20,7 +20,7 @@
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
     "shuffle-array": "^1.0.1",
-    "socket.io": "^2.3.0",
+    "socket.io": "^2.4.0",
     "styled-components": "^5.0.1",
     "uuid": "^7.0.2"
   },
